@@ -1,12 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from ConfigParser import SafeConfigParser
 from twisted.application import service
 from twisted.words.protocols.jabber.jid import JID
+from twisted.internet import task
 from wokkel.client import XMPPClient
-import VorpalBot
+from wokkel import xmppim
+from VorpalBot import VorpalBot
 
-config = ConfigParser.SafeConfigParser()
+config = SafeConfigParser()
 config.read("vorpal.conf")
 # database
 dbpath = config.get('DEFAULT', 'dbpath')
@@ -26,7 +29,8 @@ client.setServiceParent(application)
 # send presence periodically to avoid server-side timeouts on c2s-connection
 presence = xmppim.PresenceProtocol()
 presence.setHandlerParent(client)
-presence.available()
+lookalive = task.LoopingCall(presence.available)
+lookalive.start(600.0)
 
 mucHandler = VorpalBot(room_jid, nick, dbpath)
 mucHandler.setHandlerParent(client)

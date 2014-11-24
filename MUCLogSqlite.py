@@ -85,7 +85,8 @@ class MUCLogSqlite:
         """hi-pass filter"""
         fetch_query = '''SELECT time, user, message FROM log
                     WHERE strftime('%s', time) > ?'''
-        start_ts = (start - BEGINNING_OF_TIMES).total_seconds()
+        #start_ts = (start - BEGINNING_OF_TIMES).total_seconds()
+        start_ts = start.strftime(u'%s')
         c = self.conn.cursor()
         c.execute(fetch_query, (start_ts,))
         raw_log = c.fetchall()
@@ -97,8 +98,10 @@ class MUCLogSqlite:
         fetch_query = '''SELECT time, user, message FROM log
                     WHERE strftime('%s', time) > ?
                       AND strftime('%s', time) < ?'''
-        start_ts = (start - BEGINNING_OF_TIMES).total_seconds()
-        end_ts = (end - BEGINNING_OF_TIMES).total_seconds()
+        #start_ts = (start - BEGINNING_OF_TIMES).total_seconds()
+        #end_ts = (end - BEGINNING_OF_TIMES).total_seconds()
+        start_ts = start.strftime(u'%s')
+        end_ts = end.strftime(u'%s')
         c = self.conn.cursor()
         c.execute(fetch_query, (start_ts, end_ts))
         raw_log = c.fetchall()

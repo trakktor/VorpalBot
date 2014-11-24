@@ -1,0 +1,7 @@
+# config template
+# all fields are mandatory
+dbpath = vorpal.db
+jid = vopalbot@example.org
+password = password
+nick = bork
+room_jid = room@conference.example.org

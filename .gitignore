@@ -52,3 +52,6 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# actual config; make your own, mofo
+vorpal.conf
